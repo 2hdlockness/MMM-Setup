@@ -1,0 +1,26 @@
+{
+  "name": "MMM-Setup",
+  "version": "1.0.0",
+  "description": "Easy Setup @bugsounet MagicMirror module.",
+  "main": "setup.js",
+  "scripts": {
+    "start": "node setup"
+  },
+  "keywords": [
+    "magic mirror",
+    "module"
+  ],
+  "author": "bugsounet",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://forum.bugsounet.fr/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bugsounet/MMM-Setup"
+  },
+  "homepage": "https://github.com/bugsounet/MMM-Setup",
+  "dependencies": {
+    "open": "^8.0.5"
+  }
+}
