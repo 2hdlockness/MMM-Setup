@@ -1,5 +1,7 @@
 <html>
-   <body>@bugsounet Modules list:<br><br>
+   <body>
+     <span><a href="installed">Installed Modules</a></span><br><br>
+     <span>Main installable @bugsounet Modules list:</span><br><br>
       <script type="text/javascript" language="javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
       <script type="text/javascript">
         $.getJSON("http://127.0.0.1:8081/allModules" , (modules) => {
@@ -12,11 +14,12 @@
             var link = document.createTextNode(moduleName)
             a.appendChild(link)
             a.title = moduleName
-            a.href = "./" + moduleName
+            a.href = "./" + moduleName + "/installer.html"
             module.appendChild(a)
             body.appendChild(module)
           })
         })
-      </script>[~WARNING Testing~] ONLY Available: MMM-GoogleAssistant<br><br>
+      </script>
+      <span>[~WARNING Testing MODE~]</span><br><br>
    </body>
 </html>

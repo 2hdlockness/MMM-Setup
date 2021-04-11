@@ -1,4 +1,4 @@
-const tools = require("../../tools/tools.js")
+const tools = require("../../../tools/tools.js")
 
 var defaultModule = {
   module: "MMM-GoogleAssistant",
@@ -59,7 +59,7 @@ function readResponse(req) {
   var response = {
     module: "MMM-GoogleAssistant",
     position: req.position,
-    disabled: req.disabled,
+    disabled: tools.stringToBool(req.disabled),
     config: {
       debug: tools.stringToBool(req.debug),
       assistantConfig: {

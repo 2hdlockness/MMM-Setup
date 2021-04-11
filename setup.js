@@ -19,11 +19,11 @@ function readConfig() {
   if (fs.existsSync(file)) {
     var MMConfig = require(file)
   }
-  else return console.log("config.js not found !?")
+  else return console.log("Error: MagicMirror config.js not found !?")
   return MMConfig
 }
 
-function readAllName() {
+function readAllNameInstalled() {
   try {
     var allModulesName = []
     var ModulesInConfig = MMConfig.modules.find(m => {
@@ -39,7 +39,7 @@ function readAllName() {
 function readModules(config, module) {
   if (!module) return console.log("no module specified")
   try {
-    moduleFile = require("./modules/" + module +"/" + module + ".js")
+    moduleFile = require("./HTML/modules/" + module +"/" + module + ".js")
     var configModule = config.modules.find(m => m.module == module)
     configModule.config = tools.mergeConfig( {} , moduleFile.default.config, configModule.config )
   } catch (e) {
@@ -50,27 +50,35 @@ function readModules(config, module) {
 }
 
 /** Main **/
-var MMConfig = readConfig()
-var allModules= readAllName()
-log("Find", allModules.length, "@bugsounet Modules:", allModules)
 
-app.use('/resources', express.static('resources'))
+var MMConfig = readConfig()
+var allModulesInstalled= readAllNameInstalled()
+var allModules= tools.bugsounetModules
+log("Find", allModulesInstalled.length, "@bugsounet Modules:", allModulesInstalled)
+
+app.use('/resources', express.static('./HTML/resources'))
 
 app.get('/', function (req, res) {
   this.wantedConfigModule = null
   this.moduleFile = null
-  res.sendFile( __dirname + "/index.htm")
+  res.sendFile( __dirname + "/HTML/index.htm")
+})
+
+app.get('/installed', function (req, res) {
+  this.wantedConfigModule = null
+  this.moduleFile = null
+  res.sendFile( __dirname + "/HTML/installed.htm")
 })
 
 allModules.forEach( module => {
   log("Create route for", module)
   app.get("/"+ module, (req,res) => {
     this.wantedConfigModule = readModules(MMConfig, module)
-    this.moduleFile = require("./modules/" + module +"/" + module + ".js")
+    this.moduleFile = require("./HTML/modules/" + module +"/" + module + ".js")
     if (!this.wantedConfigModule) return res.end("error!")
     log("Config Found: ", this.wantedConfigModule.module)
     log(module + " actual config:", this.wantedConfigModule)
-    res.sendFile( __dirname+ "/modules/" + module + "/index.htm")
+    res.sendFile( __dirname+ "/HTML/modules/" + module + "/index.htm")
   })
  }
 )
@@ -80,10 +88,16 @@ app.get("/config", (req, res) => {
    log("Send config...")
 })
 
+app.get("/allmodulesInstalled", (req,res) => {
+  res.json(allModulesInstalled)
+  log("Send All Modules names...")
+})
+
 app.get("/allmodules", (req,res) => {
   res.json(allModules)
   log("Send All Modules names...")
 })
+
 app.get('/Save', (req, res) => {
 /** response received translate **/
    response = this.moduleFile.readResponse(req.query)
@@ -121,3 +135,4 @@ var server = app.listen(8081, "127.0.0.1", function () {
    open("http://"+ host + ":" + port).catch(() => console.log("Failed to open browser!"))
 })
 /** end of main **/
+
