@@ -78,7 +78,13 @@ function stringToArray(string) {
   else return []
 }
 
+function saveConfig(MMConfig) {
+  /** To Code **/
+  return true
+}
+
 exports.mergeConfig = mergeConfig
 exports.stringToBool = stringToBool
 exports.stringToArray = stringToArray
 exports.bugsounetModules = bugsounetModules
+exports.saveConfig = saveConfig

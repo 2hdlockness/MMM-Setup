@@ -55,49 +55,50 @@ var defaultModule = {
   }
 }
 
-function ReadResponse(req) {
+function readResponse(req) {
   var response = {
     module: "MMM-GoogleAssistant",
-    position: req.query.position,
+    position: req.position,
+    disabled: req.disabled,
     config: {
-      debug: tools.stringToBool(req.query.debug),
+      debug: tools.stringToBool(req.debug),
       assistantConfig: {
-        lang: req.query.lang,
-        credentialPath: req.query.credentials,
-        tokenPath: req.query.token,
-        latitude: Number(req.query.latitude),
-        longitude: Number(req.query.longitude),
+        lang: req.lang,
+        credentialPath: req.credentials,
+        tokenPath: req.token,
+        latitude: Number(req.latitude),
+        longitude: Number(req.longitude),
       },
       responseConfig: {
-        useScreenOutput: tools.stringToBool(req.query.useScreenOutput),
-        screenOutputCSS: req.query.screenOutputCSS,
-        screenOutputTimer: Number(req.query.screenOutputTimer),
-        activateDelay: Number(req.query.activateDelay),
-        useAudioOutput: tools.stringToBool(req.query.useAudioOutput),
-        useChime: tools.stringToBool(req.query.useChime),
-        newChime: tools.stringToBool(req.query.newChime),
-        useNative: tools.stringToBool(req.query.useNative),
-        playProgram: req.query.playProgram
+        useScreenOutput: tools.stringToBool(req.useScreenOutput),
+        screenOutputCSS: req.screenOutputCSS,
+        screenOutputTimer: Number(req.screenOutputTimer),
+        activateDelay: Number(req.activateDelay),
+        useAudioOutput: tools.stringToBool(req.useAudioOutput),
+        useChime: tools.stringToBool(req.useChime),
+        newChime: tools.stringToBool(req.newChime),
+        useNative: tools.stringToBool(req.useNative),
+        playProgram: req.playProgram
       },
       micConfig: {
-        recorder: req.query.recorder,
-        device: req.query.device
+        recorder: req.recorder,
+        device: req.device
       },
       snowboy: {
-        audioGain: Number(req.query.audioGain),
-        Frontend: tools.stringToBool(req.query.Frontend),
-        Model: req.query.Model,
-        Sensitivity: Number(req.query.Sensitivity)
+        audioGain: Number(req.audioGain),
+        Frontend: tools.stringToBool(req.Frontend),
+        Model: req.Model,
+        Sensitivity: Number(req.Sensitivity)
       },
       A2DServer: {
-        useA2D: tools.stringToBool(req.query.useA2D),
-        stopCommand: req.query.stopCommand
+        useA2D: tools.stringToBool(req.useA2D),
+        stopCommand: req.stopCommand
       },
-      recipes: tools.stringToArray(req.query.recipes),
+      recipes: tools.stringToArray(req.recipes),
     }
   }
   return response
 }
 
 exports.default = defaultModule
-exports.readResponse = ReadResponse
+exports.readResponse = readResponse

@@ -3,6 +3,12 @@ const fs = require("fs")
 const open = require("open")
 const tools = require("./tools/tools.js")
 var express = require("express")
+var log = (...args) => { /* do nothing */ }
+try {
+  var config = require("./config.js")
+  if (config.debug) log = (...args) => { console.log("[DEBUG]", ...args) }
+} catch (e) { return console.log("please config your config.js file!") }
+
 var app = express()
 this.wantedConfigModule = null
 this.moduleFile = null
@@ -46,21 +52,24 @@ function readModules(config, module) {
 /** Main **/
 var MMConfig = readConfig()
 var allModules= readAllName()
-console.log("Find", allModules.length, "@bugsounet Modules:", allModules)
+log("Find", allModules.length, "@bugsounet Modules:", allModules)
 
-app.use(express.static('public'));
+app.use('/resources', express.static('resources'))
+
 app.get('/', function (req, res) {
+  this.wantedConfigModule = null
+  this.moduleFile = null
   res.sendFile( __dirname + "/index.htm")
 })
 
 allModules.forEach( module => {
-  console.log("Create route for", module)
+  log("Create route for", module)
   app.get("/"+ module, (req,res) => {
     this.wantedConfigModule = readModules(MMConfig, module)
     this.moduleFile = require("./modules/" + module +"/" + module + ".js")
     if (!this.wantedConfigModule) return res.end("error!")
-    console.log("Config Found: ", this.wantedConfigModule.module)
-    console.log(module + " actual config:", this.wantedConfigModule)
+    log("Config Found: ", this.wantedConfigModule.module)
+    log(module + " actual config:", this.wantedConfigModule)
     res.sendFile( __dirname+ "/modules/" + module + "/index.htm")
   })
  }
@@ -68,23 +77,47 @@ allModules.forEach( module => {
 
 app.get("/config", (req, res) => {
    res.json(this.wantedConfigModule)
-   console.log("send config")
+   log("Send config...")
 })
 
-app.get('/process_get', (req, res) => {
-   var self = this
+app.get("/allmodules", (req,res) => {
+  res.json(allModules)
+  log("Send All Modules names...")
+})
+app.get('/Save', (req, res) => {
 /** response received translate **/
-   console.log(self.moduleFile, this.wantedConfigModule)
-   response = this.moduleFile.readResponse(req)
+   response = this.moduleFile.readResponse(req.query)
    newConfig = tools.mergeConfig( {} , this.wantedConfigModule, response )
-   console.log ("Request change:", newConfig)
+   log("Request change:", newConfig)
+   var referrer = req.get('Referrer')
+   log("Referrer is:", referrer)
+   log("Merging to config.js file...")
+   MMConfig.modules.find((m,i) => {
+     if (m.module == response.module) {
+       log("Modify:", response.module )
+       delete(MMConfig.modules[i])
+       MMConfig.modules[i] = newConfig
+       log("Done.")
+     }
+   })
+   log("Result:", MMConfig)
+   log("Save to config.js File... @todo mouahahah")
+   /** Todo : save to config.js file! **/
+   tools.saveConfig(MMConfig)
+   log("Yeah I have the callback done...")
+   res.redirect(referrer)
    res.end("ok!")
 })
 
-var server = app.listen(8081, function () {
+app.use(function(req, res, next) {
+  console.log("Error! Don't find:", req.url)
+  res.status(404).send("-404- Sorry, I can't find that!");
+})
+
+var server = app.listen(8081, "127.0.0.1", function () {
    var host = server.address().address
    var port = server.address().port
-   console.log("Running configuration app on http://127.0.0.1:" + port)
-   open("http://127.0.0.1:8081").catch(() => console.log("Failed to open browser!"))
+   console.log("Running configuration app on http://"+ host + ":" + port)
+   open("http://"+ host + ":" + port).catch(() => console.log("Failed to open browser!"))
 })
 /** end of main **/
