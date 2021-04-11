@@ -33,8 +33,9 @@
             document.getElementById("usePMDL").value= queryConfig.config.snowboy.usePMDL
             document.getElementById("audioGain").value= queryConfig.config.snowboy.audioGain
             document.getElementById("Frontend").value= queryConfig.config.snowboy.Frontend
-            document.getElementById("Model").value= queryConfig.config.snowboy.Model
+            document.getElementById("Model").value= queryConfig.config.snowboy.usePMDL ? "other" : queryConfig.config.snowboy.Model
             document.getElementById("Sensitivity").value= queryConfig.config.snowboy.Sensitivity
+            if (queryConfig.config.snowboy.usePMDL) document.getElementById("PMDLName").value= queryConfig.config.snowboy.Model
             /** A2DServer **/
             document.getElementById("useA2D").value= queryConfig.config.A2DServer.useA2D
             document.getElementById("stopCommand").value= queryConfig.config.A2DServer.stopCommand
@@ -44,7 +45,7 @@
             /** Recipes **/
             document.getElementById("recipes").value= queryConfig.config.recipes
         });
-      </script><span>~Under Coding~ DON'T USE IT !</span><br><br>
+      </script>
 
       <span>Name of module: </span><span id="module"></span><br><br>
       <form action = "http://127.0.0.1:8081/Save" method = "GET">
@@ -138,7 +139,7 @@
         <span>micConfig</span><br>
         <span>recorder:</span> <input id="recorder" type = "text" name = "recorder"><br>
         <span>device:</span> <input id="device" type = "text" name = "device"><br><br>
- 
+
         <span>snowboy</span><br>
         <span>useSnowboy:</span>
         <select id="useSnowboy" type = "select" name = "useSnowboy">
@@ -150,13 +151,27 @@
           <option valeur ="true">true</option>
           <option valeur ="false">false</option>
         </select><br>
+        <span>Personal PMDL: </span><input id="PMDLName" type = "text" name = "PMDLName"></input><br>
         <span>audioGain:</span> <input id="audioGain" type = "text" name = "audioGain"><br>
         <span>Frontend:</span>
         <select id="Frontend" type = "select" name = "Frontend">
           <option valeur ="true">true</option>
           <option valeur ="false">false</option>
         </select><br>
-        <span>Model:</span> <input id="Model" type = "text" name = "Model"><br>
+
+        <span>Model:</span>
+        <select id="Model" type = "text" name = "Model">
+          <option valeur ="smart_mirror">smart_mirror</option>
+          <option valeur ="jarvis">jarvis</option>
+          <option valeur ="computer">computer</option>
+          <option valeur ="snowboy">snowboy</option>
+          <option valeur ="subex">subex</option>
+          <option valeur ="neo_ya">neo_ya</option>
+          <option valeur ="hey_extreme">hey_extreme</option>
+          <option valeur ="view_glass">view_glass</option>
+          <option valeur ="alexa">alexa</option>
+        </select><br>
+
         <span>Sensitivity:</span>
         <select id="Sensitivity" type = "select" name = "Sensitivity">
           <option valeur ="null">null</option>
@@ -189,12 +204,14 @@
         <select id="displayResponse" type = "select" name = "displayResponse">
           <option valeur ="true">true</option>
           <option valeur ="false">false</option>
-        </select><br>
-        <br>
-    
+        </select><br><br>
+
         <span>Recipes</span><br>
-        <span>recipes:</span> <input id="recipes" type = "text" name = "recipes"><br><br>
+        <textarea id="recipes" type = "textarea" name = "recipes" rows= "10" cols="35"></textarea><br><br>
         <input type = "submit" value = "Save Config">
       </form>
+      <span>By saving config, it will generate a new config.js file for MagicMirror.</span><br>
+      <span>Warning, all comments in config.js will be deleted!</span><br>
+      <span>A backup will be available in backup directory of MMM-Setup</span>
    </body>
 </html>

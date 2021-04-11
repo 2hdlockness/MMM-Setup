@@ -85,14 +85,19 @@ function readResponse(req) {
         device: req.device
       },
       snowboy: {
+        useSnowboy: tools.stringToBool(req.useSnowboy),
+        usePMDL: tools.stringToBool(req.usePMDL),
         audioGain: Number(req.audioGain),
         Frontend: tools.stringToBool(req.Frontend),
-        Model: req.Model,
+        Model: tools.stringToBool(req.usePMDL) ? req.PMDLName : req.Model,
         Sensitivity: Number(req.Sensitivity) || null
       },
       A2DServer: {
         useA2D: tools.stringToBool(req.useA2D),
-        stopCommand: req.stopCommand
+        stopCommand: req.stopCommand,
+        useYouTube: tools.stringToBool(req.useYouTube),
+        youtubeCommand: req.youtubeCommand,
+        displayResponse: tools.stringToBool(req.displayResponse)
       },
       recipes: tools.stringToArray(req.recipes),
     }
