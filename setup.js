@@ -9,10 +9,6 @@ try {
   if (config.debug) log = (...args) => { console.log("[DEBUG]", ...args) }
 } catch (e) { return console.log("please config your config.js file!") }
 
-var app = express()
-this.wantedConfigModule = null
-this.moduleFile = null
-
 /** Read MagicMirror Config **/
 function readConfig() {
   let file = path.resolve(__dirname, "../../config/config.js")
@@ -50,7 +46,9 @@ function readModules(config, module) {
 }
 
 /** Main **/
-
+var app = express()
+this.wantedConfigModule = null
+this.moduleFile = null
 var MMConfig = readConfig()
 var allModulesInstalled= readAllNameInstalled()
 var allModules= tools.bugsounetModules
@@ -90,16 +88,22 @@ app.get("/config", (req, res) => {
 
 app.get("/allmodulesInstalled", (req,res) => {
   res.json(allModulesInstalled)
-  log("Send All Modules names...")
+  log("Send All Modules @bugsounet modules installed...")
 })
 
 app.get("/allmodules", (req,res) => {
   res.json(allModules)
-  log("Send All Modules names...")
+  log("Send All @bugsounet modules names...")
+})
+
+app.get("/stop", (req,res) => {
+  log("Stop!")
+  res.end("Thanks for using MMM-Setup!")
+  process.exit()
 })
 
 app.get('/Save', (req, res) => {
-/** response received translate **/
+   /** response received translate **/
    response = this.moduleFile.readResponse(req.query)
    newConfig = tools.mergeConfig( {} , this.wantedConfigModule, response )
    log("Request change:", newConfig)
@@ -115,10 +119,8 @@ app.get('/Save', (req, res) => {
      }
    })
    log("Result:", MMConfig)
-   log("Save to config.js File... @todo mouahahah")
-   /** Todo : save to config.js file! **/
-   tools.saveConfig(MMConfig)
-   log("Yeah I have the callback done...")
+   log("Save to config.js File...")
+   tools.saveConfig(MMConfig,config.debug)
    res.redirect(referrer)
    res.end("ok!")
 })

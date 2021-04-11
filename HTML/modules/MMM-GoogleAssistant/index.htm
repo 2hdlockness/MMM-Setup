@@ -1,5 +1,6 @@
 <html>
    <body>
+      <span><a href="/">Home</a></span><br><br>
       <script type="text/javascript" language="javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
       <script type="text/javascript">
         $.getJSON( "http://127.0.0.1:8081/config" , (queryConfig) => {
@@ -43,17 +44,17 @@
             /** Recipes **/
             document.getElementById("recipes").value= queryConfig.config.recipes
         });
-      </script>~Under Coding~<br><br>
+      </script><span>~Under Coding~ DON'T USE IT !</span><br><br>
 
-      Name of module: <span id="module"></span><br><br>
+      <span>Name of module: </span><span id="module"></span><br><br>
       <form action = "http://127.0.0.1:8081/Save" method = "GET">
-        Disabled:
+        <span>Disabled:</span>
         <select id="disabled" type = "select" name = "disabled">
           <option valeur ="true">true</option>
           <option valeur ="false">false</option>
         </select>
-        Activate module<br>
-        Position:
+        <span>Activate module</span><br>
+        <span>Position:</span>
         <select id="position" type = "select" name = "position">
           <option valeur= "top_bar">top_bar</option>
           <option valeur= "top_left">top_left</option>
@@ -69,18 +70,18 @@
           <option valeur= "fullscreen_above">fullscreen_above</option>
           <option valeur= "fullscreen_below">fullscreen_bellow</option>
         </select>
-        Select module position<br><br>
+        <span>Select module position</span><br><br>
 
-        Configuration<br>
-        debug:
+        <span>Configuration</span><br>
+        <span>debug:</span>
         <select id="debug" type = "select" name = "debug">
           <option valeur ="true">true</option>
           <option valeur ="false">false</option>
         </select>
-        Activate debug mode<br><br>
+        <span>Activate debug mode</span><br><br>
    
-        assistantConfig<br>
-        lang:
+        <span>assistantConfig</span><br>
+        <span>lang:</span>
         <select id="lang" type = "text" name = "lang">
           <option valeur ="de-DE">de-DE</option>
           <option valeur ="en-AU">en-AU</option>
@@ -97,45 +98,102 @@
           <option valeur ="ko-KR">ko-KR</option>
           <option valeur ="pt-BR">pt-BR</option>
         </select>
-        Select language<br>
-        credentials: <input id="credentials" type = "text" name = "credentials" readonly>credentials file (you have to change this!)<br>
-        token: <input id="token" type = "text" name = "token" readonly>token file (you don't have to change this!)<br>
-        latitude: <input id="latitude" type = "text" name = "latitude">Enter your latitude coordinate<br>
-        longitude: <input id="longitude" type = "text" name = "longitude">Enter your longitude coordinate<br><br>
+        <span>Select language</span><br>
+        <span>credentials: </span><input id="credentials" type = "text" name = "credentials" readonly><span> credentials file (you have to change this!)</span><br>
+        <span>token: </span><input id="token" type = "text" name = "token" readonly><span> token file (you don't have to change this!)</span><br>
+        <span>latitude: </span><input id="latitude" type = "text" name = "latitude"><span> Enter your latitude coordinate</span><br>
+        <span>longitude: </span><input id="longitude" type = "text" name = "longitude"><span> Enter your longitude coordinate</span><br><br>
 
-        responseConfig<br>
-        useScreenOutput: <input id="useScreenOutput" type = "text" name = "useScreenOutput"><br>
-        screenOutputCSS: <input id="screenOutputCSS" type = "text" name = "screenOutputCSS"><br>
-        screenOutputTimer: <input id="screenOutputTimer" type = "text" name = "screenOutputTimer"><br>
-        activateDelay: <input id="activateDelay" type = "text" name = "activateDelay"><br>
-        useAudioOutput: <input id="useAudioOutput" type = "text" name = "useAudioOutput"><br>
-        useChime: <input id="useChime" type = "text" name = "useChime"><br>
-        newChime: <input id="newChime" type = "text" name = "newChime"><br>
-        useNative: <input id="useNative" type = "text" name = "useNative"><br>
-        playProgram: <input id="playProgram" type = "text" name = "playProgram"><br><br>
+        <span>responseConfig</span><br>
+        <span>useScreenOutput:</span>
+        <select id="useScreenOutput" type = "seltec" name = "useScreenOutput">
+          <option valeur ="true">true</option>
+          <option valeur ="false">false</option>
+        </select><br>
+        <span>screenOutputCSS: </span><input id="screenOutputCSS" type = "text" name = "screenOutputCSS"><br>
+        <span>screenOutputTimer: </span><input id="screenOutputTimer" type = "text" name = "screenOutputTimer"><br>
+        <span>activateDelay: </span><input id="activateDelay" type = "text" name = "activateDelay"><br>
+        <span>useAudioOutput:</span>
+        <select id="useAudioOutput" type = "select" name = "useAudioOutput">
+          <option valeur ="true">true</option>
+          <option valeur ="false">false</option>
+        </select><br>
+        <span>useChime:</span>
+        <select id="useChime" type = "select" name = "useChime">
+          <option valeur ="true">true</option>
+          <option valeur ="false">false</option>
+        </select><br>
+        <span>newChime:</span>
+        <select id="newChime" type = "select" name = "newChime">
+          <option valeur ="true">true</option>
+          <option valeur ="false">false</option>
+        </select><br>
+        <span>useNative:</span>
+        <select id="useNative" type = "selecet" name = "useNative">
+          <option valeur ="true">true</option>
+          <option valeur ="false">false</option>
+        </select><br>
+        <span>playProgram:</span> <input id="playProgram" type = "text" name = "playProgram"><br><br>
 
-        micConfig<br>
-        recorder: <input id="recorder" type = "text" name = "recorder"><br>
-        device: <input id="device" type = "text" name = "device"><br><br>
+        <span>micConfig</span><br>
+        <span>recorder:</span> <input id="recorder" type = "text" name = "recorder"><br>
+        <span>device:</span> <input id="device" type = "text" name = "device"><br><br>
  
-        snowboy<br>
-        useSnowboy:  <input id="useSnowboy" type = "text" name = "useSnowboy"><br>
-        usePMDL: <input id="usePMDL" type = "text" name = "usePMDL"><br>
-        audioGain: <input id="audioGain" type = "text" name = "audioGain"><br>
-        Frontend: <input id="Frontend" type = "text" name = "Frontend"><br>
-        Model: <input id="Model" type = "text" name = "Model"><br>
-        Sensitivity: <input id="Sensitivity" type = "text" name = "Sensitivity"><br><br>
+        <span>snowboy</span><br>
+        <span>useSnowboy:</span>
+        <select id="useSnowboy" type = "select" name = "useSnowboy">
+          <option valeur ="true">true</option>
+          <option valeur ="false">false</option>
+        </select><br>
+        <span>usePMDL:</span>
+        <select id="usePMDL" type = "select" name = "usePMDL">
+          <option valeur ="true">true</option>
+          <option valeur ="false">false</option>
+        </select><br>
+        <span>audioGain:</span> <input id="audioGain" type = "text" name = "audioGain"><br>
+        <span>Frontend:</span>
+        <select id="Frontend" type = "select" name = "Frontend">
+          <option valeur ="true">true</option>
+          <option valeur ="false">false</option>
+        </select><br>
+        <span>Model:</span> <input id="Model" type = "text" name = "Model"><br>
+        <span>Sensitivity:</span>
+        <select id="Sensitivity" type = "select" name = "Sensitivity">
+          <option valeur ="null">null</option>
+          <option valeur ="0.1">0.1</option>
+          <option valeur ="0.2">0.2</option>
+          <option valeur ="0.3">0.3</option>
+          <option valeur ="0.4">0.4</option>
+          <option valeur ="0.5">0.5</option>
+          <option valeur ="0.6">0.6</option>
+          <option valeur ="0.7">0.7</option>
+          <option valeur ="0.8">0.8</option>
+          <option valeur ="0.9">0.9</option>
+          <option valeur ="1">1</option>
+        </select><br><br>
 
-        A2DServer<br>
-        useA2D: <input id="useA2D" type = "text" name = "useA2D"><br>
-        stopCommand: <input id="stopCommand" type = "text" name = "stopCommand"><br>
-        useYouTube: <input id="useYouTube" type = "text" name = "useYouTube"><br>
-        youtubeCommand: <input id="youtubeCommand" type = "text" name = "youtubeCommand"><br>
-        displayResponse: <input id="displayResponse" type = "text" name = "displayResponse"><br>
+        <span>A2DServer</span><br>
+        <span>useA2D:</span>
+        <select id="useA2D" type = "select" name = "useA2D">
+          <option valeur ="true">true</option>
+          <option valeur ="false">false</option>
+        </select><br>
+        <span>stopCommand:</span> <input id="stopCommand" type = "text" name = "stopCommand"><br>
+        <span>useYouTube:</span>
+        <select id="useYouTube" type = "select" name = "useYouTube">
+          <option valeur ="true">true</option>
+          <option valeur ="false">false</option>
+        </select><br>
+        <span>youtubeCommand:</span> <input id="youtubeCommand" type = "text" name = "youtubeCommand"><br>
+        <span>displayResponse:</span>
+        <select id="displayResponse" type = "select" name = "displayResponse">
+          <option valeur ="true">true</option>
+          <option valeur ="false">false</option>
+        </select><br>
         <br>
     
-        Recipes<br>
-        recipes: <input id="recipes" type = "text" name = "recipes"><br><br>
+        <span>Recipes</span><br>
+        <span>recipes:</span> <input id="recipes" type = "text" name = "recipes"><br><br>
         <input type = "submit" value = "Save Config">
       </form>
    </body>

@@ -88,7 +88,7 @@ function readResponse(req) {
         audioGain: Number(req.audioGain),
         Frontend: tools.stringToBool(req.Frontend),
         Model: req.Model,
-        Sensitivity: Number(req.Sensitivity)
+        Sensitivity: Number(req.Sensitivity) || null
       },
       A2DServer: {
         useA2D: tools.stringToBool(req.useA2D),
