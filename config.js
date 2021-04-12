@@ -1,5 +1,5 @@
 var config= {
-  debug: true
+  debug: false
 }
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
