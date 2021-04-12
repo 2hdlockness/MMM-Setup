@@ -25,23 +25,23 @@ function readAllNameInstalled() {
     var ModulesInConfig = MMConfig.modules.find(m => {
       if (tools.bugsounetModules.includes(m.module)) allModulesName.push(m.module)
     })
-    return allModulesName
+    return allModulesName.sort()
   } catch (e) {
-    console.log("Error: " + e)
+    console.log("Error! " + e)
   }
 }
 
 /** Read wanted config module **/
 function readModules(config, module) {
-  if (!module) return console.log("no module specified")
+  if (!module) return console.log("Error: no module specified")
   try {
     moduleFile = require("./HTML/modules/" + module +"/" + module + ".js")
     var configModule = config.modules.find(m => m.module == module)
     configModule.config = tools.mergeConfig( {} , moduleFile.default.config, configModule.config )
   } catch (e) {
-    console.log("Error: " + e)
+    console.log("Error! " + e)
   }
-  if (!configModule) return console.log("module not found!")
+  if (!configModule) return console.log("Error: module not found!")
   return configModule
 }
 
@@ -51,7 +51,7 @@ this.wantedConfigModule = null
 this.moduleFile = null
 var MMConfig = readConfig()
 var allModulesInstalled= readAllNameInstalled()
-var allModules= tools.bugsounetModules
+var allModules= tools.bugsounetModules.sort()
 log("Find", allModulesInstalled.length, "@bugsounet Modules:", allModulesInstalled)
 
 app.use('/resources', express.static('./HTML/resources'))

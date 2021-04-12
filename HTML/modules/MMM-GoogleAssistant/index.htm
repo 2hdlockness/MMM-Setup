@@ -1,217 +1,220 @@
 <html>
-   <body>
-      <span><a href="/">Home</a></span><br><br>
-      <script type="text/javascript" language="javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-      <script type="text/javascript">
-        $.getJSON( "http://127.0.0.1:8081/config" , (queryConfig) => {
-            console.log("config Object:", queryConfig)
-            document.getElementById("module").innerHTML= queryConfig.module
-            document.getElementById("position").value= queryConfig.position
-            document.getElementById("disabled").value= queryConfig.disabled
-            document.getElementById("debug").value= queryConfig.config.debug
-            /** assistantConfig **/
-            document.getElementById("lang").value= queryConfig.config.assistantConfig.lang
-            document.getElementById("credentials").value= queryConfig.config.assistantConfig.credentialPath
-            document.getElementById("token").value= queryConfig.config.assistantConfig.tokenPath
-            document.getElementById("latitude").value= queryConfig.config.assistantConfig.latitude
-            document.getElementById("longitude").value= queryConfig.config.assistantConfig.longitude
-            /** responseConfig **/
-            document.getElementById("useScreenOutput").value= queryConfig.config.responseConfig.useScreenOutput
-            document.getElementById("screenOutputCSS").value= queryConfig.config.responseConfig.screenOutputCSS
-            document.getElementById("screenOutputTimer").value= queryConfig.config.responseConfig.screenOutputTimer
-            document.getElementById("activateDelay").value= queryConfig.config.responseConfig.activateDelay
-            document.getElementById("useAudioOutput").value= queryConfig.config.responseConfig.useAudioOutput
-            document.getElementById("useChime").value= queryConfig.config.responseConfig.useChime
-            document.getElementById("newChime").value= queryConfig.config.responseConfig.newChime
-            document.getElementById("useNative").value= queryConfig.config.responseConfig.useNative
-            document.getElementById("playProgram").value= queryConfig.config.responseConfig.playProgram
-            /** micConfig **/
-            document.getElementById("recorder").value= queryConfig.config.micConfig.recorder
-            document.getElementById("device").value= queryConfig.config.micConfig.device
-            /** snowboy **/
-            document.getElementById("useSnowboy").value= queryConfig.config.snowboy.useSnowboy
-            document.getElementById("usePMDL").value= queryConfig.config.snowboy.usePMDL
-            document.getElementById("audioGain").value= queryConfig.config.snowboy.audioGain
-            document.getElementById("Frontend").value= queryConfig.config.snowboy.Frontend
-            document.getElementById("Model").value= queryConfig.config.snowboy.usePMDL ? "other" : queryConfig.config.snowboy.Model
-            document.getElementById("Sensitivity").value= queryConfig.config.snowboy.Sensitivity
-            if (queryConfig.config.snowboy.usePMDL) document.getElementById("PMDLName").value= queryConfig.config.snowboy.Model
-            /** A2DServer **/
-            document.getElementById("useA2D").value= queryConfig.config.A2DServer.useA2D
-            document.getElementById("stopCommand").value= queryConfig.config.A2DServer.stopCommand
-            document.getElementById("useYouTube").value= queryConfig.config.A2DServer.useYouTube
-            document.getElementById("youtubeCommand").value= queryConfig.config.A2DServer.youtubeCommand
-            document.getElementById("displayResponse").value= queryConfig.config.A2DServer.displayResponse
-            /** Recipes **/
-            document.getElementById("recipes").value= queryConfig.config.recipes
-        });
-      </script>
+  <head>
+    <link rel="stylesheet" href="/resources/style.css">
+  </head>
+  <body>
+    <span><a href="/">Home</a></span><br><br>
+    <span>Name of module: </span><span id="module"></span><br><br>
+    <form action = "http://127.0.0.1:8081/Save" method = "GET">
+      <span>Disabled:</span>
+      <select id="disabled" type = "select" name = "disabled">
+        <option valeur ="true">true</option>
+        <option valeur ="false">false</option>
+      </select>
+      <span>Activate module</span><br>
+      <span>Position:</span>
+      <select id="position" type = "select" name = "position">
+        <option valeur= "top_bar">top_bar</option>
+        <option valeur= "top_left">top_left</option>
+        <option valeur= "top_center">top_center</option>
+        <option valeur= "top_right">top_right</option>
+        <option valeur= "upper_third">upper_third</option>
+        <option valeur= "middle_center">middle_center</option>
+        <option valeur= "lower_third">lower_third</option>
+        <option valeur= "bottom_left">bottom_left</option>
+        <option valeur= "bottom_center">bottom_center</option>
+        <option valeur= "bottom_right">bottom_right</option>
+        <option valeur= "bottom_bar">bottom_bar</option>
+        <option valeur= "fullscreen_above">fullscreen_above</option>
+        <option valeur= "fullscreen_below">fullscreen_bellow</option>
+      </select>
+      <span>Select module position</span><br><br>
 
-      <span>Name of module: </span><span id="module"></span><br><br>
-      <form action = "http://127.0.0.1:8081/Save" method = "GET">
-        <span>Disabled:</span>
-        <select id="disabled" type = "select" name = "disabled">
-          <option valeur ="true">true</option>
-          <option valeur ="false">false</option>
-        </select>
-        <span>Activate module</span><br>
-        <span>Position:</span>
-        <select id="position" type = "select" name = "position">
-          <option valeur= "top_bar">top_bar</option>
-          <option valeur= "top_left">top_left</option>
-          <option valeur= "top_center">top_center</option>
-          <option valeur= "top_right">top_right</option>
-          <option valeur= "upper_third">upper_third</option>
-          <option valeur= "middle_center">middle_center</option>
-          <option valeur= "lower_third">lower_third</option>
-          <option valeur= "bottom_left">bottom_left</option>
-          <option valeur= "bottom_center">bottom_center</option>
-          <option valeur= "bottom_right">bottom_right</option>
-          <option valeur= "bottom_bar">bottom_bar</option>
-          <option valeur= "fullscreen_above">fullscreen_above</option>
-          <option valeur= "fullscreen_below">fullscreen_bellow</option>
-        </select>
-        <span>Select module position</span><br><br>
+      <span>Configuration</span><br>
+      <span>debug:</span>
+      <select id="debug" type = "select" name = "debug">
+        <option valeur ="true">true</option>
+        <option valeur ="false">false</option>
+      </select>
+      <span>Activate debug mode</span><br><br>
+ 
+      <span>assistantConfig</span><br>
+      <span>lang:</span>
+      <select id="lang" type = "text" name = "lang">
+        <option valeur ="de-DE">de-DE</option>
+        <option valeur ="en-AU">en-AU</option>
+        <option valeur ="en-CA">en-CA</option>
+        <option valeur ="en-GB">en-GB</option>
+        <option valeur ="en-IN">en-IN</option>
+        <option valeur ="en-US">en-US</option>
+        <option valeur ="fr-CA">fr-CA</option>
+        <option valeur ="fr-FR">fr-FR</option>
+        <option valeur ="it-IT">it-IT</option>
+        <option valeur ="ja-JP">ja-JP</option>
+        <option valeur ="es-ES">es-ES</option>
+        <option valeur ="es-MX">es-MX</option>
+        <option valeur ="ko-KR">ko-KR</option>
+        <option valeur ="pt-BR">pt-BR</option>
+      </select>
+      <span>Select language</span><br>
+      <span>credentials: </span><input id="credentials" type = "text" name = "credentials" readonly><span> credentials file (you have to change this!)</span><br>
+      <span>token: </span><input id="token" type = "text" name = "token" readonly><span> token file (you don't have to change this!)</span><br>
+      <span>latitude: </span><input id="latitude" type = "text" name = "latitude"><span> Enter your latitude coordinate</span><br>
+      <span>longitude: </span><input id="longitude" type = "text" name = "longitude"><span> Enter your longitude coordinate</span><br><br>
 
-        <span>Configuration</span><br>
-        <span>debug:</span>
-        <select id="debug" type = "select" name = "debug">
-          <option valeur ="true">true</option>
-          <option valeur ="false">false</option>
-        </select>
-        <span>Activate debug mode</span><br><br>
-   
-        <span>assistantConfig</span><br>
-        <span>lang:</span>
-        <select id="lang" type = "text" name = "lang">
-          <option valeur ="de-DE">de-DE</option>
-          <option valeur ="en-AU">en-AU</option>
-          <option valeur ="en-CA">en-CA</option>
-          <option valeur ="en-GB">en-GB</option>
-          <option valeur ="en-IN">en-IN</option>
-          <option valeur ="en-US">en-US</option>
-          <option valeur ="fr-CA">fr-CA</option>
-          <option valeur ="fr-FR">fr-FR</option>
-          <option valeur ="it-IT">it-IT</option>
-          <option valeur ="ja-JP">ja-JP</option>
-          <option valeur ="es-ES">es-ES</option>
-          <option valeur ="es-MX">es-MX</option>
-          <option valeur ="ko-KR">ko-KR</option>
-          <option valeur ="pt-BR">pt-BR</option>
-        </select>
-        <span>Select language</span><br>
-        <span>credentials: </span><input id="credentials" type = "text" name = "credentials" readonly><span> credentials file (you have to change this!)</span><br>
-        <span>token: </span><input id="token" type = "text" name = "token" readonly><span> token file (you don't have to change this!)</span><br>
-        <span>latitude: </span><input id="latitude" type = "text" name = "latitude"><span> Enter your latitude coordinate</span><br>
-        <span>longitude: </span><input id="longitude" type = "text" name = "longitude"><span> Enter your longitude coordinate</span><br><br>
+      <span>responseConfig</span><br>
+      <span>useScreenOutput:</span>
+      <select id="useScreenOutput" type = "seltec" name = "useScreenOutput">
+        <option valeur ="true">true</option>
+        <option valeur ="false">false</option>
+      </select><br>
+      <span>screenOutputCSS: </span><input id="screenOutputCSS" type = "text" name = "screenOutputCSS"><br>
+      <span>screenOutputTimer: </span><input id="screenOutputTimer" type = "text" name = "screenOutputTimer"><br>
+      <span>activateDelay: </span><input id="activateDelay" type = "text" name = "activateDelay"><br>
+      <span>useAudioOutput:</span>
+      <select id="useAudioOutput" type = "select" name = "useAudioOutput">
+        <option valeur ="true">true</option>
+        <option valeur ="false">false</option>
+      </select><br>
+      <span>useChime:</span>
+      <select id="useChime" type = "select" name = "useChime">
+        <option valeur ="true">true</option>
+        <option valeur ="false">false</option>
+      </select><br>
+      <span>newChime:</span>
+      <select id="newChime" type = "select" name = "newChime">
+        <option valeur ="true">true</option>
+        <option valeur ="false">false</option>
+      </select><br>
+      <span>useNative:</span>
+      <select id="useNative" type = "selecet" name = "useNative">
+        <option valeur ="true">true</option>
+        <option valeur ="false">false</option>
+      </select><br>
+      <span>playProgram:</span> <input id="playProgram" type = "text" name = "playProgram"><br><br>
 
-        <span>responseConfig</span><br>
-        <span>useScreenOutput:</span>
-        <select id="useScreenOutput" type = "seltec" name = "useScreenOutput">
-          <option valeur ="true">true</option>
-          <option valeur ="false">false</option>
-        </select><br>
-        <span>screenOutputCSS: </span><input id="screenOutputCSS" type = "text" name = "screenOutputCSS"><br>
-        <span>screenOutputTimer: </span><input id="screenOutputTimer" type = "text" name = "screenOutputTimer"><br>
-        <span>activateDelay: </span><input id="activateDelay" type = "text" name = "activateDelay"><br>
-        <span>useAudioOutput:</span>
-        <select id="useAudioOutput" type = "select" name = "useAudioOutput">
-          <option valeur ="true">true</option>
-          <option valeur ="false">false</option>
-        </select><br>
-        <span>useChime:</span>
-        <select id="useChime" type = "select" name = "useChime">
-          <option valeur ="true">true</option>
-          <option valeur ="false">false</option>
-        </select><br>
-        <span>newChime:</span>
-        <select id="newChime" type = "select" name = "newChime">
-          <option valeur ="true">true</option>
-          <option valeur ="false">false</option>
-        </select><br>
-        <span>useNative:</span>
-        <select id="useNative" type = "selecet" name = "useNative">
-          <option valeur ="true">true</option>
-          <option valeur ="false">false</option>
-        </select><br>
-        <span>playProgram:</span> <input id="playProgram" type = "text" name = "playProgram"><br><br>
+      <span>micConfig</span><br>
+      <span>recorder:</span> <input id="recorder" type = "text" name = "recorder"><br>
+      <span>device:</span> <input id="device" type = "text" name = "device"><br><br>
 
-        <span>micConfig</span><br>
-        <span>recorder:</span> <input id="recorder" type = "text" name = "recorder"><br>
-        <span>device:</span> <input id="device" type = "text" name = "device"><br><br>
+      <span>snowboy</span><br>
+      <span>useSnowboy:</span>
+      <select id="useSnowboy" type = "select" name = "useSnowboy">
+        <option valeur ="true">true</option>
+        <option valeur ="false">false</option>
+      </select><br>
+      <span>usePMDL:</span>
+      <select id="usePMDL" type = "select" name = "usePMDL">
+        <option valeur ="true">true</option>
+        <option valeur ="false">false</option>
+      </select><br>
+      <span>Personal PMDL: </span><input id="PMDLName" type = "text" name = "PMDLName"></input><br>
+      <span>audioGain:</span> <input id="audioGain" type = "text" name = "audioGain"><br>
+      <span>Frontend:</span>
+      <select id="Frontend" type = "select" name = "Frontend">
+        <option valeur ="true">true</option>
+        <option valeur ="false">false</option>
+      </select><br>
 
-        <span>snowboy</span><br>
-        <span>useSnowboy:</span>
-        <select id="useSnowboy" type = "select" name = "useSnowboy">
-          <option valeur ="true">true</option>
-          <option valeur ="false">false</option>
-        </select><br>
-        <span>usePMDL:</span>
-        <select id="usePMDL" type = "select" name = "usePMDL">
-          <option valeur ="true">true</option>
-          <option valeur ="false">false</option>
-        </select><br>
-        <span>Personal PMDL: </span><input id="PMDLName" type = "text" name = "PMDLName"></input><br>
-        <span>audioGain:</span> <input id="audioGain" type = "text" name = "audioGain"><br>
-        <span>Frontend:</span>
-        <select id="Frontend" type = "select" name = "Frontend">
-          <option valeur ="true">true</option>
-          <option valeur ="false">false</option>
-        </select><br>
+      <span>Model:</span>
+      <select id="Model" type = "text" name = "Model">
+        <option valeur ="smart_mirror">smart_mirror</option>
+        <option valeur ="jarvis">jarvis</option>
+        <option valeur ="computer">computer</option>
+        <option valeur ="snowboy">snowboy</option>
+        <option valeur ="subex">subex</option>
+        <option valeur ="neo_ya">neo_ya</option>
+        <option valeur ="hey_extreme">hey_extreme</option>
+        <option valeur ="view_glass">view_glass</option>
+        <option valeur ="alexa">alexa</option>
+        <option disabled valeur ="other">other</option>
+      </select><br>
 
-        <span>Model:</span>
-        <select id="Model" type = "text" name = "Model">
-          <option valeur ="smart_mirror">smart_mirror</option>
-          <option valeur ="jarvis">jarvis</option>
-          <option valeur ="computer">computer</option>
-          <option valeur ="snowboy">snowboy</option>
-          <option valeur ="subex">subex</option>
-          <option valeur ="neo_ya">neo_ya</option>
-          <option valeur ="hey_extreme">hey_extreme</option>
-          <option valeur ="view_glass">view_glass</option>
-          <option valeur ="alexa">alexa</option>
-        </select><br>
+      <span>Sensitivity:</span>
+      <select id="Sensitivity" type = "select" name = "Sensitivity">
+        <option valeur ="null">null</option>
+        <option valeur ="0.1">0.1</option>
+        <option valeur ="0.2">0.2</option>
+        <option valeur ="0.3">0.3</option>
+        <option valeur ="0.4">0.4</option>
+        <option valeur ="0.5">0.5</option>
+        <option valeur ="0.6">0.6</option>
+        <option valeur ="0.7">0.7</option>
+        <option valeur ="0.8">0.8</option>
+        <option valeur ="0.9">0.9</option>
+        <option valeur ="1">1</option>
+      </select><br><br>
 
-        <span>Sensitivity:</span>
-        <select id="Sensitivity" type = "select" name = "Sensitivity">
-          <option valeur ="null">null</option>
-          <option valeur ="0.1">0.1</option>
-          <option valeur ="0.2">0.2</option>
-          <option valeur ="0.3">0.3</option>
-          <option valeur ="0.4">0.4</option>
-          <option valeur ="0.5">0.5</option>
-          <option valeur ="0.6">0.6</option>
-          <option valeur ="0.7">0.7</option>
-          <option valeur ="0.8">0.8</option>
-          <option valeur ="0.9">0.9</option>
-          <option valeur ="1">1</option>
-        </select><br><br>
+      <span>A2DServer</span><br>
+      <span>useA2D:</span>
+      <select id="useA2D" type = "select" name = "useA2D">
+        <option valeur ="true">true</option>
+        <option valeur ="false">false</option>
+      </select><br>
+      <span>stopCommand:</span> <input id="stopCommand" type = "text" name = "stopCommand"><br>
+      <span>useYouTube:</span>
+      <select id="useYouTube" type = "select" name = "useYouTube">
+        <option valeur ="true">true</option>
+        <option valeur ="false">false</option>
+      </select><br>
+      <span>youtubeCommand:</span> <input id="youtubeCommand" type = "text" name = "youtubeCommand"><br>
+      <span>displayResponse:</span>
+      <select id="displayResponse" type = "select" name = "displayResponse">
+        <option valeur ="true">true</option>
+        <option valeur ="false">false</option>
+      </select><br><br>
 
-        <span>A2DServer</span><br>
-        <span>useA2D:</span>
-        <select id="useA2D" type = "select" name = "useA2D">
-          <option valeur ="true">true</option>
-          <option valeur ="false">false</option>
-        </select><br>
-        <span>stopCommand:</span> <input id="stopCommand" type = "text" name = "stopCommand"><br>
-        <span>useYouTube:</span>
-        <select id="useYouTube" type = "select" name = "useYouTube">
-          <option valeur ="true">true</option>
-          <option valeur ="false">false</option>
-        </select><br>
-        <span>youtubeCommand:</span> <input id="youtubeCommand" type = "text" name = "youtubeCommand"><br>
-        <span>displayResponse:</span>
-        <select id="displayResponse" type = "select" name = "displayResponse">
-          <option valeur ="true">true</option>
-          <option valeur ="false">false</option>
-        </select><br><br>
-
-        <span>Recipes</span><br>
-        <textarea id="recipes" type = "textarea" name = "recipes" rows= "10" cols="35"></textarea><br><br>
-        <input type = "submit" value = "Save Config">
-      </form>
-      <span>By saving config, it will generate a new config.js file for MagicMirror.</span><br>
-      <span>Warning, all comments in config.js will be deleted!</span><br>
-      <span>A backup will be available in backup directory of MMM-Setup</span>
-   </body>
+      <span>Recipes</span><br>
+      <textarea id="recipes" type = "textarea" name = "recipes" rows= "10" cols="35"></textarea><br><br>
+      <input type = "submit" value = "Save Config">
+    </form>
+    <span>By saving config, it will generate a new config.js file for MagicMirror.</span><br>
+    <span>Warning, all comments in config.js will be deleted!</span><br>
+    <span>A backup will be available in backup directory of MMM-Setup</span>
+  </body>
+  <script type="text/javascript" language="javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+  <script type="text/javascript">
+    $.getJSON( "http://127.0.0.1:8081/config" , (queryConfig) => {
+      console.log("config Object:", queryConfig)
+      document.getElementById("module").innerHTML= queryConfig.module
+      document.getElementById("position").value= queryConfig.position
+      document.getElementById("disabled").value= queryConfig.disabled
+      document.getElementById("debug").value= queryConfig.config.debug
+      /** assistantConfig **/
+      document.getElementById("lang").value= queryConfig.config.assistantConfig.lang
+      document.getElementById("credentials").value= queryConfig.config.assistantConfig.credentialPath
+      document.getElementById("token").value= queryConfig.config.assistantConfig.tokenPath
+      document.getElementById("latitude").value= queryConfig.config.assistantConfig.latitude
+      document.getElementById("longitude").value= queryConfig.config.assistantConfig.longitude
+      /** responseConfig **/
+      document.getElementById("useScreenOutput").value= queryConfig.config.responseConfig.useScreenOutput
+      document.getElementById("screenOutputCSS").value= queryConfig.config.responseConfig.screenOutputCSS
+      document.getElementById("screenOutputTimer").value= queryConfig.config.responseConfig.screenOutputTimer
+      document.getElementById("activateDelay").value= queryConfig.config.responseConfig.activateDelay
+      document.getElementById("useAudioOutput").value= queryConfig.config.responseConfig.useAudioOutput
+      document.getElementById("useChime").value= queryConfig.config.responseConfig.useChime
+      document.getElementById("newChime").value= queryConfig.config.responseConfig.newChime
+      document.getElementById("useNative").value= queryConfig.config.responseConfig.useNative
+      document.getElementById("playProgram").value= queryConfig.config.responseConfig.playProgram
+      /** micConfig **/
+      document.getElementById("recorder").value= queryConfig.config.micConfig.recorder
+      document.getElementById("device").value= queryConfig.config.micConfig.device
+      /** snowboy **/
+      document.getElementById("useSnowboy").value= queryConfig.config.snowboy.useSnowboy
+      document.getElementById("usePMDL").value= queryConfig.config.snowboy.usePMDL
+      document.getElementById("audioGain").value= queryConfig.config.snowboy.audioGain
+      document.getElementById("Frontend").value= queryConfig.config.snowboy.Frontend
+      document.getElementById("Model").value= queryConfig.config.snowboy.usePMDL ? "other" : queryConfig.config.snowboy.Model
+      document.getElementById("Sensitivity").value= queryConfig.config.snowboy.Sensitivity
+      if (queryConfig.config.snowboy.usePMDL) document.getElementById("PMDLName").value= queryConfig.config.snowboy.Model
+      /** A2DServer **/
+      document.getElementById("useA2D").value= queryConfig.config.A2DServer.useA2D
+      document.getElementById("stopCommand").value= queryConfig.config.A2DServer.stopCommand
+      document.getElementById("useYouTube").value= queryConfig.config.A2DServer.useYouTube
+      document.getElementById("youtubeCommand").value= queryConfig.config.A2DServer.youtubeCommand
+      document.getElementById("displayResponse").value= queryConfig.config.A2DServer.displayResponse
+      /** Recipes **/
+      document.getElementById("recipes").value= queryConfig.config.recipes
+    });
+  </script>
 </html>
