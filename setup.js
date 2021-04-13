@@ -23,7 +23,7 @@ function main() {
   this.MMConfig = readConfig()
   this.allModulesInstalled= readAllNameInstalled()
   this.allModules= tools.bugsounetModules.sort()
-  log("Find", allModulesInstalled.length, "@bugsounet Modules:", allModulesInstalled)
+  log("Find", this.allModulesInstalled.length, "@bugsounet Modules:", this.allModulesInstalled)
   CreateClient()
   CreateServer()
 }
@@ -83,7 +83,7 @@ function CreateClient() {
   this.allModules.forEach( module => {
     log("[Client] Create route for", module)
     this.Client.get("/"+ module, (req,res) => {
-      this.wantedConfigModule = readModules(MMConfig, module)
+      this.wantedConfigModule = readModules(this.MMConfig, module)
       this.moduleFile = require("./HTML/modules/" + module +"/" + module + ".js")
       if (!this.wantedConfigModule) return res.end("error!")
       log("[Client] Config Found: ", this.wantedConfigModule.module)
@@ -135,6 +135,7 @@ function CreateServer() {
     /** response received translate **/
     var response = this.moduleFile.readResponse(req.query)
     var newConfig = tools.mergeConfig( {} , this.wantedConfigModule, response )
+    if (!response) return res.end("[Server] FATAL - Bad Response Format!")
     log("[Server] Request change:", newConfig)
     var referrer = req.get('Referrer')
     log("[Server] Referrer is:", referrer)
@@ -153,7 +154,7 @@ function CreateServer() {
       log("[Server] Save to config.js File...")
       tools.saveConfig(this.MMConfig,config.debug)
     }
-    res.redirect(referrer)
+    res.redirect(referrer + response.module)
     res.end("ok!")
   })
 
