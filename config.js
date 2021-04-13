@@ -1,5 +1,6 @@
 var config= {
-  debug: false
+  debug: false,
+  testingMode: true
 }
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
