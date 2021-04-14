@@ -2,12 +2,13 @@
   <head>
     <link rel="stylesheet" href="/css/style.css">
     <script type="text/javascript" language="javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" language="javascript" src="/config.js"></script>
     <script type="text/javascript" language="javascript" src="/js/GAQuery.js" async></script>
   </head>
   <body>
     <span><a href="/">Home</a></span><br><br>
     <span>Name of module: </span><span id="module"></span><br><br>
-    <form action = "http://127.0.0.1:8082/Save" method = "GET">
+    <form action = "http://" + config.listening +":" + config.port + "/Save" method = "GET">
       <span>Disabled:</span>
       <select id="disabled" type = "select" name = "disabled">
         <option valeur ="true">true</option>

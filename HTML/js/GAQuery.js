@@ -1,4 +1,4 @@
-$.getJSON( "http://127.0.0.1:8082/config" , (queryConfig) => {
+$.getJSON("http://" + config.listening + ":" + config.port + "/config" , (queryConfig) => {
   console.log("config Object:", queryConfig)
   document.getElementById("module").innerHTML= queryConfig.module
   document.getElementById("position").value= queryConfig.position

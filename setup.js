@@ -16,16 +16,14 @@ main()
 function main() {
   console.log("MMM-Setup Application v"+ require("./package.json").version)
   if (config.testingMode) console.log("TestingMode is activated, don't worry.. no change will be apply!")
-  this.Client = express()
-  this.Server = express()
+  this.app = express()
   this.wantedConfigModule = null
   this.moduleFile = null
   this.MMConfig = readConfig()
   this.allModulesInstalled= readAllNameInstalled()
   this.allModules= tools.bugsounetModules.sort()
   log("Find", this.allModulesInstalled.length, "@bugsounet Modules:", this.allModulesInstalled)
-  CreateClient()
-  CreateServer()
+  Setup()
 }
 
 /** Read MagicMirror Config **/
@@ -62,76 +60,59 @@ function readModules(config, module) {
   return configModule
 }
 
-/** Client Part **/
-function CreateClient() {
-  this.Client.use('/resources', express.static('./HTML/resources'))
-  this.Client.use('/js', express.static('./HTML/js'))
-  this.Client.use('/css', express.static('./HTML/css'))
+/** http server **/
+function Setup() {
+  this.app.use('/resources', express.static('./HTML/resources'))
+  this.app.use('/js', express.static('./HTML/js'))
+  this.app.use('/css', express.static('./HTML/css'))
+  this.app.use('/config.js', express.static('./config.js'))
 
-  this.Client.get('/', (req, res) => {
+  this.app.get('/', (req, res) => {
     this.wantedConfigModule = null
     this.moduleFile = null
     res.sendFile( __dirname + "/HTML/index.htm")
   })
 
-  this.Client.get('/installed', (req, res) => {
+  this.app.get('/installed', (req, res) => {
     this.wantedConfigModule = null
     this.moduleFile = null
     res.sendFile( __dirname + "/HTML/installed.htm")
   })
 
   this.allModules.forEach( module => {
-    log("[Client] Create route for", module)
-    this.Client.get("/"+ module, (req,res) => {
+    log("Create route for", module)
+    this.app.get("/"+ module, (req,res) => {
       this.wantedConfigModule = readModules(this.MMConfig, module)
       this.moduleFile = require("./HTML/modules/" + module +"/" + module + ".js")
       if (!this.wantedConfigModule) return res.end("error!")
-      log("[Client] Config Found: ", this.wantedConfigModule.module)
+      log("Config Found: ", this.wantedConfigModule.module)
       res.sendFile( __dirname+ "/HTML/modules/" + module + "/index.htm")
     })
    }
   )
 
-  this.Client.get("/stop", (req,res) => {
-    log("[Client] Stop!")
+  this.app.get("/stop", (req,res) => {
+    log("Stop!")
     res.end("Thanks for using MMM-Setup!")
     process.exit()
   })
 
-  this.Client.use(function(req, res, next) {
-    console.log("[Client] Error! Don't find:", req.url)
-    res.status(404).send("-404- Sorry, I can't find that!");
-  })
-
-  var client = Client.listen(8081, "0.0.0.0", async function () {
-    var port = client.address().port
-    var host = await tools.getIP()
-    host.forEach(network => {
-      console.log("MMM-Setup listening on " + (network.default ? "default interface " : "") + "http://"+ network.ip + ":" + port)
-    })
-  })
-}
-
-/** Server Part **/
-function CreateServer() {
-  this.Server.use(cors())
-
-  this.Server.get("/config", (req, res) => {
+  this.app.get("/config", (req, res) => {
     res.json(this.wantedConfigModule)
     log("[Server] Send config...", this.wantedConfigModule)
   })
 
-  this.Server.get("/allmodulesInstalled", (req,res) => {
+  this.app.get("/allmodulesInstalled", (req,res) => {
     res.json(this.allModulesInstalled)
     log("[Server] Send All Modules @bugsounet modules installed...", this.allModulesInstalled)
   })
 
-  this.Server.get("/allmodules", (req,res) => {
+  this.app.get("/allmodules", (req,res) => {
     res.json(this.allModules)
     log("[Server] Send All @bugsounet modules names...", this.allModules)
   })
 
-  this.Server.get('/Save', (req, res) => {
+  this.app.get('/Save', (req, res) => {
     /** response received translate **/
     var response = this.moduleFile.readResponse(req.query)
     var newConfig = tools.mergeConfig( {} , this.wantedConfigModule, response )
@@ -148,23 +129,30 @@ function CreateServer() {
         log("[Server] Done.")
       }
     })
-    log("[Server] Result:", this.MMConfig)
+    log("Result:", this.MMConfig)
     if (config.testingMode) console.log("[Server] Testing mode, Save is disabled!")
     else {
-      log("[Server] Save to config.js File...")
+      log("Save to config.js File...")
       tools.saveConfig(this.MMConfig,config.debug)
     }
     res.redirect(referrer + response.module)
     res.end("ok!")
   })
 
-  this.Server.use((req, res, next) => {
-    console.log("[Server] Error! Don't find:", req.url)
-    res.status(404).send("-404- Fatal error!");
+
+  this.app.use(function(req, res) {
+    console.log("Error! Don't find:", req.url)
+    res.status(404).send("-404- Sorry, I can't find that!");
   })
 
-  var server = Server.listen(8082, "localhost", () => {
+  var server = this.app.listen(config.port, config.listening, async function () {
     var port = server.address().port
-    log("[Server] Started on port", port)
+    var host = server.address().address
+    console.log("MMM-Setup listening on http://"+ host + ":" + port)
+    var purposeHost = await tools.getIP()
+    purposeHost.forEach(network => {
+      if (network.default && (network.ip != config.listening))
+      console.log("For remote, you can use " + network.ip + " in your listening part of config.js file")
+    })
   })
 }
