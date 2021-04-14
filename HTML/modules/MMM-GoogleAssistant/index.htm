@@ -8,7 +8,8 @@
   <body>
     <span><a href="/">Home</a></span><br><br>
     <span>Name of module: </span><span id="module"></span><br><br>
-    <form action = "http://" + config.listening +":" + config.port + "/Save" method = "GET">
+    config.listening
+    <form id="configSave" method = "GET">
       <span>Disabled:</span>
       <select id="disabled" type = "select" name = "disabled">
         <option valeur ="true">true</option>

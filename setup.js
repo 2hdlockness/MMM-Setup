@@ -135,7 +135,7 @@ function Setup() {
       log("Save to config.js File...")
       tools.saveConfig(this.MMConfig,config.debug)
     }
-    res.redirect(referrer + response.module)
+    res.redirect("/"+ response.module)
     res.end("ok!")
   })
 

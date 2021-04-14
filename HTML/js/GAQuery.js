@@ -39,4 +39,6 @@ $.getJSON("http://" + config.listening + ":" + config.port + "/config" , (queryC
   document.getElementById("displayResponse").value= queryConfig.config.A2DServer.displayResponse
   /** Recipes **/
   document.getElementById("recipes").value= queryConfig.config.recipes
+  /** return url for save config **/
+  document.getElementById("configSave").action= "http://" + config.listening +":" + config.port + "/Save"
 });
