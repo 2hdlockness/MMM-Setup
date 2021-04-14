@@ -1,25 +1,12 @@
 <html>
+  <head>
+    <script type="text/javascript" language="javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" language="javascript" src="/config.js"></script>
+    <script type="text/javascript" language="javascript" src="/js/allmodulesinstalled.js" async></script>
+  </head>
   <body>
     <span><a href="/">Home</a></span><br><br>
     <span>@bugsounet Modules list:</span><br><br>
     <span>[~WARNING Testing~] ONLY Available: MMM-GoogleAssistant</span><br><br>
   </body>
-  <script type="text/javascript" language="javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-  <script type="text/javascript">
-    $.getJSON("http://127.0.0.1:8081/allModulesInstalled" , (modules) => {
-      var body = document.getElementsByTagName("body")[0]
-      modules.forEach(moduleName => {
-        console.log(moduleName)
-        var module = document.createElement("div")
-        module.id = moduleName
-        var a = document.createElement('a')
-        var link = document.createTextNode(moduleName)
-        a.appendChild(link)
-        a.title = moduleName
-        a.href = "./" + moduleName
-        module.appendChild(a)
-        body.appendChild(module)
-      })
-    })
-  </script>
 </html>

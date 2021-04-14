@@ -1,6 +1,7 @@
 const path = require("path")
 const fs = require("fs")
 const util = require("util")
+const si = require('systeminformation')
 
 var bugsounetModules = [
   "MMM-Saint",
@@ -132,8 +133,49 @@ function saveConfig(MMConfig, debug) {
   })
 }
 
+function getIP () {
+  return new Promise((resolve) => {
+    si.networkInterfaceDefault()
+      .then(defaultInt=> {
+        si.networkInterfaces().then(data => {
+          var Interfaces= []
+          var int =0
+          data.forEach(interface => {
+            var info = {}
+            if (interface.type == "wireless") {
+              info = {
+                ip: interface.ip4 ? interface.ip4 : "unknow",
+                default: (interface.iface == defaultInt) ? true: false
+              }
+            }
+            if (interface.type == "wired") {
+              info = {
+                ip: interface.ip4 ? interface.ip4 : "unknow",
+                default: (interface.iface == defaultInt) ? true: false
+              }
+            }
+            if (interface.iface != "lo") Interfaces.push(info)
+            if (int == data.length-1) resolve(Interfaces)
+            else int +=1
+          })
+        })
+      })
+      .catch(error => {
+        console.log(error)
+        var info = {}
+        info = {
+          ip: "127.0.0.1",
+          default: true
+        }
+        Interfaces.push(info)
+        resolve(Interfaces)
+      })
+  })
+}
+
 exports.mergeConfig = mergeConfig
 exports.stringToBool = stringToBool
 exports.stringToArray = stringToArray
 exports.bugsounetModules = bugsounetModules
 exports.saveConfig = saveConfig
+exports.getIP = getIP

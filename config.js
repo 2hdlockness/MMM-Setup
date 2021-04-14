@@ -1,5 +1,8 @@
 var config= {
-  debug: false
+  debug: false,
+  testingMode: true,
+  listening: "127.0.0.1",
+  port: "8081"
 }
 
 /*************** DO NOT EDIT THE LINE BELOW ***************/
