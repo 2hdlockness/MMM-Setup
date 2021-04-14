@@ -2,7 +2,6 @@ const path = require("path")
 const fs = require("fs")
 const tools = require("./tools/tools.js")
 var express = require("express")
-var cors = require('cors')
 
 var log = (...args) => { /* do nothing */ }
 try {
